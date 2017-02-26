@@ -10,8 +10,10 @@ import { Item } from './item';
 
 
 export class AppComponent {
-  MIN = 0;
-  MAX = 50;
+  MIN = 0;        //min value forsellIn
+  MAX = 50;       //max value for sellIn
+  MIN_QUALITY = 0;
+  MAX_QUALITY = 50;
 
   title = 'Store inventory';
   items = ['Aged Brie', 'Sulfarus the Legendary Sword', 'Backstage Pass',  'Conjured Shield', 'Regular Shield'];
@@ -20,10 +22,72 @@ export class AppComponent {
   constructor() {
     for (let item of this.items) {
       var sellIn = this.getRandomNumber(this.MIN, this.MAX);
-      var quantity = this.getRandomNumber(this.MIN, this.MAX);
+      var quantity = this.getRandomNumber(this.MIN_QUALITY, this.MAX_QUALITY);
 
       this.inventory.push(new Item(item, sellIn, quantity));
     }
+  }
+
+  updateInventory(event) {
+    for (let item of this.inventory) {
+      if (this.isAgedBrie(item)) {
+        this.increaseQuality(item, 1);
+      } else if (this.isBackstagePass(item)) {
+        if (item.sellIn === 0) {
+          item.quality = this.MIN_QUALITY;
+        } else if (item.sellIn <= 5) {
+          this.increaseQuality(item, 3);
+        } else if (item.sellIn <= 10) {
+          this.increaseQuality(item, 2);
+        }
+      } else if (!this.isSulfuras(item)) {
+        this.decreaseQuality(item);
+      }
+
+      this.decreaseSellIn(item);
+    }
+  }
+
+  decreaseSellIn(item) {
+    if (item.sellIn === this.MIN || this.isSulfuras(item)) {
+      return;
+    }
+
+    item.sellIn--;
+  }
+
+  decreaseQuality(item, decreaseBy = 1) {
+    if (item.quality === this.MIN) {
+      return;
+    } else if (this.isConjured(item) && item.sellIn === 0) {
+      decreaseBy = 2;
+    }
+
+    item.quality -= decreaseBy;
+  }
+
+  increaseQuality(item, increaseBy = 1) {
+    if (item.quality === this.MAX_QUALITY) {
+      return;
+    }
+
+    item.quality += increaseBy;
+  }
+
+  isAgedBrie(item) {
+    return item.name === this.items[0];
+  }
+
+  isSulfuras(item) {
+    return item.name === this.items[1];
+  }
+
+  isBackstagePass(item) {
+    return item.name === this.items[2];
+  }
+
+  isConjured(item) {
+    return item.name === this.items[3];
   }
 
   getRandomNumber(min, max) {
