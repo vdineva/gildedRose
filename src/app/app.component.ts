@@ -15,7 +15,7 @@ export class AppComponent {
   MIN_QUALITY = 0;
   MAX_QUALITY = 50;
 
-  title = 'Store inventory';
+  title = 'Store Inventory';
   items = ['Aged Brie', 'Sulfarus the Legendary Sword', 'Backstage Pass',  'Conjured Shield', 'Regular Shield'];
   inventory = [];
 
