@@ -39,17 +39,21 @@ export class AppComponent {
           this.increaseQuality(item, 3);
         } else if (item.sellIn <= 10) {
           this.increaseQuality(item, 2);
+        } else {
+          this.increaseQuality(item, 1);
         }
       } else if (!this.isSulfuras(item)) {
         this.decreaseQuality(item);
       }
 
-      this.decreaseSellIn(item);
+      if (!this.isSulfuras(item)) {
+        this.decreaseSellIn(item);
+      }
     }
   }
 
   decreaseSellIn(item) {
-    if (item.sellIn === this.MIN || this.isSulfuras(item)) {
+    if (item.sellIn === this.MIN) {
       return;
     }
 
@@ -57,13 +61,16 @@ export class AppComponent {
   }
 
   decreaseQuality(item, decreaseBy = 1) {
-    if (item.quality === this.MIN) {
+    if (item.quality === this.MIN_QUALITY) {
       return;
-    } else if (this.isConjured(item) && item.sellIn === 0) {
+    } else if (this.isConjured(item) || item.sellIn === 0) {
       decreaseBy = 2;
     }
 
     item.quality -= decreaseBy;
+    if (item.quality < this.MIN_QUALITY) {
+      item.quality = this.MIN_QUALITY;
+    }
   }
 
   increaseQuality(item, increaseBy = 1) {
@@ -72,6 +79,9 @@ export class AppComponent {
     }
 
     item.quality += increaseBy;
+    if (item.quality > this.MAX_QUALITY) {
+      item.quality = this.MAX_QUALITY;
+    }
   }
 
   isAgedBrie(item) {
