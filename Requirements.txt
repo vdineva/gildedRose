@@ -1,0 +1,37 @@
+Hi and welcome to team Gilded Rose! As you know, we are a small, magical, inn with a prime location in a prominent city run by a friendly innkeeper named Allison. We also buy and sell only the finest goods. Unfortunately, our goods are constantly degrading in quality as they approach their sell by date. Your goal is to implement a Version One of our inventory system to help us keep track of our inventory’s quality. Since the system is a v1, you don’t have to implement everything that would be needed for an actual system in this exercise -- you only have to do what we ask for in the specification.
+
+Some background….
+
+Right now we sell the following items:
+
+Aged Brie
+Sulfarus the Legendary Sword
+Backstage Pass
+Conjured Shield
+Regular Shield
+
+These items all have "sell in" values which denote the number of days we have left to sell them and a quality value that denotes their worth.
+
+For many items:
+
+- The quality degrades by one per day.
+- The quality drops twice as fast once the sell in value reaches 0.
+- Neither the sell in value or the quality value can be less than 0.
+- The quality value can never be greater than 50.
+
+Some of the items are weird in the following ways:
+
+- “Aged Brie” actually increases in quality the older it gets and it never degrades.
+- “Sulfuras”, being a legendary item, never has to be sold and it never decreases in quality.
+- “Backstage Pass” increases in quality as its sell in value approaches. Quality increases by 2 per day when there are 10 days or less and by 3 per day when there are 5 days or less but quality drops to 0 after the concert.
+- “Conjured” items degrade in quality twice as fast as normal items.
+
+
+Specification:
+
+The application needs to:
+
+Display a list or table of the items mentioned in the specification.
+The list / table should include each item’s name, sell in, and quality values.
+The initial sell in and quality values should be randomly generated.
+There should be an ‘update’ button. When the user clicks this button, the sell in and quality values for all items should update appropriately based on the information in the scenario. The user should be able to click this button any number of times to observe changes in inventory and value over several days.
