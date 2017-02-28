@@ -30,22 +30,23 @@ describe('AppComponent', () => {
   it('should update sellIn and quality for the Aged Brie according to specs', async(() => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
+    const tds = compiled.querySelectorAll('table > tbody > tr:first-child td');
 
-    let nameBefore = compiled.querySelector('table > tbody > tr:first-child td:nth-child(1)').textContent;
-    let sellInBefore = compiled.querySelector('table > tbody > tr:first-child td:nth-child(2)').textContent;
-    let qualityBefore = compiled.querySelector('table > tbody > tr:first-child td:nth-child(3)').textContent;
+    let nameBefore = tds[0].textContent;
+    let sellInBefore = parseInt(tds[1].textContent);
+    let qualityBefore = parseInt(tds[2].textContent);
 
     compiled.querySelector('button').click();
     fixture.detectChanges();
-    let nameAfter = compiled.querySelector('table > tbody > tr:first-child td:nth-child(1)').textContent;
-    let sellInAfter = compiled.querySelector('table > tbody > tr:first-child td:nth-child(2)').textContent;
-    let qualityAfter = compiled.querySelector('table > tbody > tr:first-child td:nth-child(3)').textContent;
+    let nameAfter = tds[0].textContent;
+    let sellInAfter = parseInt(tds[1].textContent);
+    let qualityAfter = parseInt(tds[2].textContent);
 
-    //the product name shuold not have changed after the button was clicked
+    //the product name should not have changed after the button was clicked
     expect(nameBefore).toEqual(nameAfter);
     //for Aged Brie the sellIn should have decreased by 1 after the button is clicked once
-    expect(sellInBefore).toEqual((parseInt(sellInAfter) + 1).toString());
+    expect(sellInBefore).toEqual(sellInAfter + 1);
     //for Aged Brie the quality should have increased by 1 after the button is clicked once
-    expect(qualityBefore).toEqual((qualityAfter - 1).toString());
+    expect(qualityBefore).toEqual(qualityAfter - 1);
   }));
 });

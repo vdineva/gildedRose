@@ -1,31 +1,37 @@
-import { Component } from '@angular/core';
-import { Item } from './item';
+import { Component, OnInit } from '@angular/core';
+import { InventoryService } from './inventory.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [InventoryService]
 })
 
 
 
-export class AppComponent {
-  MIN = 0;        //min value forsellIn
-  MAX = 50;       //max value for sellIn
+export class AppComponent implements OnInit {
+  MIN = 0;        //min value for sellIn
   MIN_QUALITY = 0;
   MAX_QUALITY = 50;
 
   title = 'Store Inventory';
-  items = ['Aged Brie', 'Sulfarus the Legendary Sword', 'Backstage Pass',  'Conjured Shield', 'Regular Shield'];
   inventory = [];
+  items = [];
 
-  constructor() {
-    for (let item of this.items) {
-      var sellIn = this.getRandomNumber(this.MIN, this.MAX);
-      var quantity = this.getRandomNumber(this.MIN_QUALITY, this.MAX_QUALITY);
+  constructor(private inventoryService: InventoryService) { }
 
-      this.inventory.push(new Item(item, sellIn, quantity));
-    }
+  ngOnInit(): void {
+    this.getItems();
+    this.getInventory();
+  }
+
+  getItems(): void {
+    this.items = this.inventoryService.getItems();
+  }
+
+  getInventory(): void {
+    this.inventory = this.inventoryService.getInventory();
   }
 
   updateInventory(event) {
@@ -43,7 +49,12 @@ export class AppComponent {
           this.increaseQuality(item, 1);
         }
       } else if (!this.isSulfuras(item)) {
-        this.decreaseQuality(item);
+        let decreaseBy = 1;
+        if (this.isConjured(item) || item.sellIn === 0) {
+          decreaseBy = 2;
+        }
+
+        this.decreaseQuality(item, decreaseBy);
       }
 
       if (!this.isSulfuras(item)) {
@@ -53,20 +64,13 @@ export class AppComponent {
   }
 
   decreaseSellIn(item) {
-    if (item.sellIn === this.MIN) {
-      return;
-    }
-
     item.sellIn--;
+    if (item.sellIn <= this.MIN) {
+      item.sellIn = this.MIN;
+    }
   }
 
   decreaseQuality(item, decreaseBy = 1) {
-    if (item.quality === this.MIN_QUALITY) {
-      return;
-    } else if (this.isConjured(item) || item.sellIn === 0) {
-      decreaseBy = 2;
-    }
-
     item.quality -= decreaseBy;
     if (item.quality < this.MIN_QUALITY) {
       item.quality = this.MIN_QUALITY;
@@ -74,10 +78,6 @@ export class AppComponent {
   }
 
   increaseQuality(item, increaseBy = 1) {
-    if (item.quality === this.MAX_QUALITY) {
-      return;
-    }
-
     item.quality += increaseBy;
     if (item.quality > this.MAX_QUALITY) {
       item.quality = this.MAX_QUALITY;
@@ -98,9 +98,5 @@ export class AppComponent {
 
   isConjured(item) {
     return item.name === this.items[3];
-  }
-
-  getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
   }
 }

@@ -24,7 +24,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 TODO:
-- logic in the updateInventory method can be further cleaned up / refactored
 - add some nice styling to make the app more visually appealing
-- by "degrade in quality twice as fast as normal items." I'm assuming the quality decreases by 2, and not divided by 2
 - more unit tests
