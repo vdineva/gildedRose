@@ -14,19 +14,19 @@ describe('InventoryService', () => {
   }));
 
   it('getItems should return 5 items', inject([InventoryService], (service: InventoryService) => {
-    let items = service.getItems();
+    const items = service.getItems();
     expect(items.length).toBe(5);
     expect(typeof items[0]).toBe('string');
   }));
 
   it('getInventory should return 5 items', inject([InventoryService], (service: InventoryService) => {
-    let items = service.getInventory();
+    const items = service.getInventory();
     expect(items.length).toBe(5);
     expect(typeof items[0]).toBe('object');
   }));
 
   it('getRandomNumber should return a number', inject([InventoryService], (service: InventoryService) => {
-    let number = service.getRandomNumber(1, 20);
+    const number = service.getRandomNumber(1, 20);
     expect(number).toMatch(/\d+/);
   }));
 });

@@ -32,21 +32,21 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     const tds = compiled.querySelectorAll('table > tbody > tr:first-child td');
 
-    let nameBefore = tds[0].textContent;
-    let sellInBefore = parseInt(tds[1].textContent);
-    let qualityBefore = parseInt(tds[2].textContent);
+    const nameBefore = tds[0].textContent;
+    const sellInBefore = parseInt(tds[1].textContent, 10);
+    const qualityBefore = parseInt(tds[2].textContent, 10);
 
     compiled.querySelector('button').click();
     fixture.detectChanges();
-    let nameAfter = tds[0].textContent;
-    let sellInAfter = parseInt(tds[1].textContent);
-    let qualityAfter = parseInt(tds[2].textContent);
+    const nameAfter = tds[0].textContent;
+    const sellInAfter = parseInt(tds[1].textContent, 10);
+    const qualityAfter = parseInt(tds[2].textContent, 10);
 
-    //the product name should not have changed after the button was clicked
+    // the product name should not have changed after the button was clicked
     expect(nameBefore).toEqual(nameAfter);
-    //for Aged Brie the sellIn should have decreased by 1 after the button is clicked once
+    // for Aged Brie the sellIn should have decreased by 1 after the button is clicked once
     expect(sellInBefore).toEqual(sellInAfter + 1);
-    //for Aged Brie the quality should have increased by 1 after the button is clicked once
+    // for Aged Brie the quality should have increased by 1 after the button is clicked once
     expect(qualityBefore).toEqual(qualityAfter - 1);
   }));
 });
