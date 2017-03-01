@@ -8,7 +8,7 @@ export class InventoryService {
   MIN_QUALITY = 0;
   MAX_QUALITY = 50;
 
-  items = ['Aged Brie', 'Sulfarus the Legendary Sword', 'Backstage Pass',  'Conjured Shield', 'Regular Shield'];
+  items = ['Aged Brie', 'Sulfarus the Legendary Sword', 'Backstage Pass', 'Conjured Shield', 'Regular Shield'];
   inventory = [];
 
   constructor() { }
